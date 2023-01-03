@@ -1,0 +1,23 @@
+{
+  "affix.affixated.overwhelming.prefix": "Overwhelming",
+  "affix.affixated.overwhelming.desc": "Increases the damage of all attacks.",
+  "affix.affixated.overwhelming.suffix": "of Overwhelming Force",
+  "affix.affixated.speedy.prefix": "Speedy",
+    "affix.affixated.speedy.desc": "Increases your movement speed.",
+    "affix.affixated.speedy.suffix": "of Speed",
+  "affix.affixated.attack_speed.prefix": "Speedy",
+    "affix.affixated.attack_speed.desc": "Increases your attack speed.",
+    "affix.affixated.attack_speed.suffix": "of Speed",
+  "affix.affixated.healthy.prefix": "Healthy",
+    "affix.affixated.healthy.desc": "Increases your maximum health.",
+    "affix.affixated.healthy.suffix": "of Health",
+  "affix.affixated.sturdy.prefix": "Sturdy",
+    "affix.affixated.sturdy.desc": "Increases your knockback resistance.",
+    "affix.affixated.sturdy.suffix": "of the Groundborn",
+  "affix.affixated.lucky.prefix": "Lucky",
+    "affix.affixated.lucky.desc": "Increases your luck.",
+    "affix.affixated.lucky.suffix": "of Luck",
+  "affix.affixated.knockback.prefix": "Knockback",
+    "affix.affixated.knockback.desc": "Increases the knockback of your attacks.",
+    "affix.affixated.knockback.suffix": "of Knockback"
+}

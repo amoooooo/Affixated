@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "affixated",
+  "version": "${version}",
+  "name": "Affixated",
+  "description": "Data-driven RPG style gear affixes & effects",
+  "authors": [
+    "amo"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "coffee.amo.affixated.fabric.AffixatedFabric"
+    ]
+  },
+  "mixins": [
+    "affixated.mixins.json",
+    "affixated-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.12",
+    "minecraft": ">=1.19.2"
+  }
+}
