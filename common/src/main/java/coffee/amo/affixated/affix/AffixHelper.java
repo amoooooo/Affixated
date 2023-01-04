@@ -2,17 +2,21 @@ package coffee.amo.affixated.affix;
 
 import coffee.amo.affixated.Affixated;
 import coffee.amo.affixated.util.ItemHelper;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 
 public class AffixHelper {
@@ -64,5 +68,13 @@ public class AffixHelper {
             stack.addTagElement(string, compoundTag);
             return compoundTag;
         }
+    }
+
+    public static Supplier<ResourceLocation> getAttributeKey(Attribute att){
+        return () -> Registry.ATTRIBUTE.getKey(att);
+    }
+
+    public static Supplier<Attribute> getAttribute(ResourceLocation key){
+        return () -> Registry.ATTRIBUTE.get(key);
     }
 }

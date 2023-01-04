@@ -1,6 +1,7 @@
 package coffee.amo.affixated.fabric;
 
 import coffee.amo.affixated.Affixated;
+import coffee.amo.affixated.affix.AffixHelper;
 import coffee.amo.affixated.fabric.slots.AffixatedTrinketSlot;
 import coffee.amo.affixated.slots.SlotHolder;
 import dev.emi.trinkets.TrinketSlot;
@@ -40,7 +41,7 @@ public class TrinketsHelper {
         AttributeModifier modifier = new AttributeModifier(uuid.toString(), amount, operation);
         CompoundTag tag = modifier.save();
         Affixated.LOGGER.error("ATTEMPTING TO SET ATTRIBUTE: " + attribute.getDescriptionId());
-        tag.putString("AttributeName", Registry.ATTRIBUTE.getKey(attribute).getPath());
+        tag.putString("AttributeName", AffixHelper.getAttributeKey(attribute).get().getPath());
         tag.putString("Name", attribute.getDescriptionId());
         tag.putString("Slot", slot);
         listTag.add(tag);

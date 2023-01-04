@@ -33,7 +33,7 @@ public class AffixJsonListener extends SimpleJsonResourceReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> folder, ResourceManager rm, ProfilerFiller profiler) {
         SimpleWeightedRandomList.Builder<Affix> affixesBuilder = new SimpleWeightedRandomList.Builder<>();
         folder.forEach((resourceLocation, jsonElement) -> {
-            Attribute attribute = Registry.ATTRIBUTE.get(new ResourceLocation(jsonElement.getAsJsonObject().get("attribute").getAsString()));
+            Attribute attribute = AffixHelper.getAttribute(new ResourceLocation(jsonElement.getAsJsonObject().get("attribute").getAsString())).get();
             String id = resourceLocation.getPath();
             ResourceLocation prefix = ResourceLocation.tryParse("affix.affixated." + id + ".prefix");
             ResourceLocation suffix = ResourceLocation.tryParse("affix.affixated." + id + ".suffix");
