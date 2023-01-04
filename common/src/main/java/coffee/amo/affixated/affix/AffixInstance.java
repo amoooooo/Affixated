@@ -1,14 +1,12 @@
 package coffee.amo.affixated.affix;
 
 import coffee.amo.affixated.platform.Services;
-import coffee.amo.affixated.util.ItemHelper;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AffixInstance {
     private Affix affix;
@@ -59,8 +57,8 @@ public class AffixInstance {
         }
     }
 
-    public void apply(ItemStack stack, Player player){
-        Services.PLATFORM.apply(this, stack, Services.PLATFORM.getDefaultSlots(stack, player).get(0), uuid);
+    public void apply(ItemStack stack){
+        Services.PLATFORM.apply(this, stack, Services.PLATFORM.getDefaultSlots(stack).get(0), uuid);
     }
 
     public CompoundTag toNbt(){
@@ -73,9 +71,12 @@ public class AffixInstance {
     }
 
     public static AffixInstance fromNbt(CompoundTag tag){
-        AffixInstance instance = new AffixInstance(Affix.getAffix(tag.getString("affix")), Rarity.getRarity(tag.getString("rarity")));
-        instance.setValue(tag.getDouble("value"));
-        instance.uuid = tag.getUUID("uuid");
-        return instance;
+        AtomicReference<AffixInstance> instance = new AtomicReference<>();
+        tag.getAllKeys().forEach(key -> {
+            instance.set(new AffixInstance(Affix.getAffix(tag.getCompound(key).getString("affix")), Rarity.getRarity(tag.getCompound(key).getString("rarity"))));
+            instance.get().value = tag.getCompound(key).getDouble("value");
+            instance.get().uuid = tag.getCompound(key).getUUID("uuid");
+        });
+        return instance.get();
     }
 }

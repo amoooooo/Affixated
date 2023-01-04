@@ -2,6 +2,9 @@ package coffee.amo.affixated.affix;
 
 import coffee.amo.affixated.Affixated;
 import coffee.amo.affixated.util.ItemHelper;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
@@ -13,7 +16,10 @@ import java.util.List;
 
 
 public class AffixHelper {
-    public static void createLootItem(ItemStack stack, Level level, Player player){
+    public static void createLootItem(ItemStack stack, Level level){
+        if(stack.getOrCreateTag().contains("affixes")) return;
+        Affix testerAff = Affix.getValidAffix(stack, level.random);
+        if(testerAff == null) return;
         Rarity rarity = Rarity.rarities.getRandomValue(level.random).get();
         int affixes = level.random.nextInt(rarity.getMaxAffixes())+1;
         List<Affix> appliedAffixes = new ArrayList<>();
@@ -23,14 +29,22 @@ public class AffixHelper {
             stack.addAttributeModifier(attribute, attributeModifier, ItemHelper.getDefaultSlot(stack));
         });
         for(int i = 0; i < affixes; i++){
-            Affix affix = Affix.getValidAffix(stack, level.random, player);
+            Affix affix = Affix.getValidAffix(stack, level.random);
+            if(affix == null){
+                Affixated.LOGGER.info("No affix registered for item " + stack.getItem().getDescriptionId());
+                continue;
+            }
             if(appliedAffixes.contains(affix)){
                 continue;
             }
             AffixInstance instance = new AffixInstance(affix, rarity);
             instance.roll(level);
-            instance.apply(stack, player);
+            instance.apply(stack);
             appliedAffixes.add(affix);
+        }
+        if(appliedAffixes.size() == 0) {
+            Affixated.LOGGER.info("No affixes applied to item " + stack.getItem().getDescriptionId());
+            return;
         }
         Component name = Component.translatable(appliedAffixes.get(0).getPrefix().getPath())
                         .withStyle(s->s.withColor(rarity.color).withItalic(false))
@@ -40,5 +54,15 @@ public class AffixHelper {
                                                         .append(Component.translatable(appliedAffixes.get(appliedAffixes.size()-1).getSuffix().getPath()))
                                                                 .withStyle(s->s.withColor(rarity.color).withItalic(false));
         stack.setHoverName(name);;
+    }
+
+    public static Tag getOrCreateTagElement(ItemStack stack, String string) {
+        if (stack.getTag() != null && stack.getTag().contains(string, 10)) {
+            return stack.getTag().get(string);
+        } else {
+            ListTag compoundTag = new ListTag();
+            stack.addTagElement(string, compoundTag);
+            return compoundTag;
+        }
     }
 }

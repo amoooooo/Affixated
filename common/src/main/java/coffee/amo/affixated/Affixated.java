@@ -24,15 +24,6 @@ public class Affixated {
         ReloadListenerRegistry.register(PackType.SERVER_DATA, AffixJsonListener.INSTANCE);
         ReloadListenerRegistry.register(PackType.SERVER_DATA, RarityJsonListener.INSTANCE);
         setupAffixatedVanillaSlots();
-        InteractionEvent.RIGHT_CLICK_ITEM.register((player, hand) -> {
-            if (!player.level.isClientSide){
-                if (!player.isCrouching()) return CompoundEventResult.pass();
-                ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-                AffixHelper.createLootItem(stack, player.level, player);
-                return CompoundEventResult.pass();
-            }
-            return CompoundEventResult.pass();
-        });
     }
 
     private static void setupAffixatedVanillaSlots(){

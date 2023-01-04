@@ -17,10 +17,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Affix implements WeightedEntry {
     public static SimpleWeightedRandomList<Affix> affixes;
@@ -50,7 +47,7 @@ public class Affix implements WeightedEntry {
     }
 
     public static Affix getAffix(String affix) {
-        return affixes.unwrap().stream().filter(a -> a.getData().id.equals(affix)).findFirst().orElse(null).getData();
+        return Objects.requireNonNull(affixes.unwrap().stream().filter(a -> a.getData().id.equals(affix)).findFirst().orElse(null)).getData();
     }
 
     public AttributeModifier.Operation getOperation() {
@@ -130,14 +127,14 @@ public class Affix implements WeightedEntry {
         return Weight.of(weight);
     }
 
-    public static Affix getValidAffix(ItemStack stack, RandomSource source, Player player){
+    public static Affix getValidAffix(ItemStack stack, RandomSource source){
         SimpleWeightedRandomList.Builder<Affix> builder = new SimpleWeightedRandomList.Builder<>();
         for(Wrapper<Affix> affix : affixes.unwrap()){
-            if(ItemHelper.containsAllIn(affix.getData().getAllowedSlots(), Services.PLATFORM.getDefaultSlots(stack, player))){
+            if(ItemHelper.containsAllIn(affix.getData().getAllowedSlots(), Services.PLATFORM.getDefaultSlots(stack))){
                 builder.add(affix.getData(), affix.getData().getWeight().asInt());
             }
         }
-        return builder.build().getRandomValue(source).get();
+        return builder.build().getRandomValue(source).orElse(null);
     }
 
 

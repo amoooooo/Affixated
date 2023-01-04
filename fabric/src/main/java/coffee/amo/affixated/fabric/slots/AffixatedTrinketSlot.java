@@ -3,19 +3,16 @@ package coffee.amo.affixated.fabric.slots;
 import coffee.amo.affixated.slots.IAffixatedSlot;
 import dev.emi.trinkets.TrinketSlot;
 import dev.emi.trinkets.api.SlotGroup;
+import dev.emi.trinkets.api.SlotType;
 
 public class AffixatedTrinketSlot implements IAffixatedSlot {
-    SlotGroup slot;
+    SlotType type;
 
-    public AffixatedTrinketSlot(SlotGroup slot) {
-        this.slot = slot;
+    public AffixatedTrinketSlot(SlotType type) {
+        this.type = type;
     }
     @Override
     public String getSlotType() {
-        return slot.getName();
-    }
-
-    public SlotGroup getSlot(){
-        return slot;
+        return type.getGroup() + "/" + type.getName();
     }
 }

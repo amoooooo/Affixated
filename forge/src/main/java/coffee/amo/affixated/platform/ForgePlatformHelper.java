@@ -32,7 +32,7 @@ public class ForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public List<String> getDefaultSlots(ItemStack stack, @Nullable Player player) {
+    public List<String> getDefaultSlots(ItemStack stack) {
         List<String> slots = new ArrayList<>();
         if(Platform.isModLoaded("curios")) {
             if(CuriosHelper.isCurio(stack)){

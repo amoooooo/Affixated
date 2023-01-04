@@ -13,10 +13,6 @@ repositories {
     }
 }
 
-loom{
-    accessWidenerPath.set(project(":fabric").file("src/main/resources/affixated.accesswidener"))
-}
-
 architectury {
     platformSetupLoomIde()
     fabric()

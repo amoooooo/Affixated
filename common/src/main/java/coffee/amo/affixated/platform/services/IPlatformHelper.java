@@ -13,6 +13,6 @@ import java.util.UUID;
 public interface IPlatformHelper {
     void apply(AffixInstance instance, ItemStack stack, String slot, UUID uuid);
 
-    List<String> getDefaultSlots(ItemStack stack, @Nullable Player player);
+    List<String> getDefaultSlots(ItemStack stack);
 
 }

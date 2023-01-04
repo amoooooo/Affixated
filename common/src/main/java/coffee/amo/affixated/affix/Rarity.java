@@ -34,6 +34,7 @@ public class Rarity implements WeightedEntry {
     }
 
     public static Rarity getRarity(String rarity) {
+        rarity = rarity.substring(rarity.indexOf(":") + 1);
         return raritiesMap.get(rarity);
     }
 
@@ -55,6 +56,17 @@ public class Rarity implements WeightedEntry {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public String toString() {
+        return capitalize(name.getPath().substring(name.getPath().indexOf(":") + 1));
+    }
+
+    public static String capitalize(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
 }
