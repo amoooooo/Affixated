@@ -14,6 +14,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.SwordItem;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,7 +54,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
         if(Objects.equals(slot, "MAINHAND")){
             if(stack.getItem() instanceof SwordItem){
                 slot = "MELEE";
-            } else if(stack.getItem() instanceof BowItem){
+            } else if(stack.getItem() instanceof ProjectileWeaponItem){
                 slot = "RANGED";
             } else {
                 slot = "MISC";
