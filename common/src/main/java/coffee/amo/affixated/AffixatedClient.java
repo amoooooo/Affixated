@@ -18,11 +18,14 @@ public class AffixatedClient {
                     AtomicInteger i = new AtomicInteger();
                     affixes.forEach(tag -> {
                         i.getAndIncrement();
-                        String affix = "affixated.rarity." + AffixInstance.fromNbt((CompoundTag) tag).getRarity().toString().toLowerCase(Locale.ROOT);
-                        if(!lines.get(1).contains(Component.translatable(affix))){
-                            lines.add(1, Component.translatable(affix).withStyle(s -> s.withColor(AffixInstance.fromNbt(affixes.getCompound(0)).getRarity().color).withItalic(false)));
+                        AffixInstance inst = AffixInstance.fromNbt((CompoundTag) tag);
+                        if(inst != null){
+                            String affix = "affixated.rarity." + inst.getRarity().toString().toLowerCase(Locale.ROOT);
+                            if(!lines.get(1).contains(Component.translatable(affix))){
+                                lines.add(1, Component.translatable(affix).withStyle(s -> s.withColor(AffixInstance.fromNbt(affixes.getCompound(0)).getRarity().color).withItalic(false)));
+                            }
+                            if(i.get() >= 1) return;
                         }
-                        if(i.get() >= 1) return;
                     });
                     return;
                 }

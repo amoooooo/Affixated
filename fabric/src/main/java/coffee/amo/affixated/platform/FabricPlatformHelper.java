@@ -3,8 +3,10 @@ package coffee.amo.affixated.platform;
 import coffee.amo.affixated.affix.Affix;
 import coffee.amo.affixated.affix.AffixHelper;
 import coffee.amo.affixated.affix.AffixInstance;
+import coffee.amo.affixated.affix.ItemExtension;
 import coffee.amo.affixated.fabric.AffixatedFabric;
 import coffee.amo.affixated.fabric.TrinketsHelper;
+import coffee.amo.affixated.mixin.ItemStackMixin;
 import coffee.amo.affixated.platform.services.IPlatformHelper;
 import coffee.amo.affixated.util.ItemHelper;
 import dev.architectury.platform.Platform;
@@ -22,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
 public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public void apply(AffixInstance instance, ItemStack stack, String slot, UUID uuid) {
@@ -34,7 +35,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
                 return;
             }
         }
-        stack.addAttributeModifier(affix.getAttribute(), new AttributeModifier(uuid, affix.getId(), instance.getValue(), AttributeModifier.Operation.ADDITION), ItemHelper.getDefaultSlot(stack));
+        ((ItemExtension)(Object)stack).addDataAttributeModifier(affix.getAttribute(), new AttributeModifier(uuid, affix.getId(), instance.getValue(), instance.getAffix().getOperation()), ItemHelper.getDefaultSlot(stack));
         CompoundTag tag = new CompoundTag();
         tag.put(affix.getId(), instance.toNbt());
         ((ListTag)AffixHelper.getOrCreateTagElement(stack, "affixes")).add(tag);

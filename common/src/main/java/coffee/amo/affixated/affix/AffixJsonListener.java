@@ -32,8 +32,11 @@ public class AffixJsonListener extends SimpleJsonResourceReloadListener {
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> folder, ResourceManager rm, ProfilerFiller profiler) {
         SimpleWeightedRandomList.Builder<Affix> affixesBuilder = new SimpleWeightedRandomList.Builder<>();
+        AffixHelper.ATTRIBUTE_HOLDER.clear();
         folder.forEach((resourceLocation, jsonElement) -> {
-            Attribute attribute = AffixHelper.getAttribute(new ResourceLocation(jsonElement.getAsJsonObject().get("attribute").getAsString())).get();
+            ResourceLocation attrRL = new ResourceLocation(jsonElement.getAsJsonObject().get("attribute").getAsString());
+            Attribute attribute = Registry.ATTRIBUTE.get(attrRL);
+            AffixHelper.ATTRIBUTE_HOLDER.put(attrRL, attribute);
             String id = resourceLocation.getPath();
             ResourceLocation prefix = ResourceLocation.tryParse("affix.affixated." + id + ".prefix");
             ResourceLocation suffix = ResourceLocation.tryParse("affix.affixated." + id + ".suffix");
@@ -59,6 +62,7 @@ public class AffixJsonListener extends SimpleJsonResourceReloadListener {
             affixesBuilder.add(affix, weight);
         });
         Affix.setAffixesList(affixesBuilder.build());
+        Affixated.LOGGER.info("Cached " + AffixHelper.ATTRIBUTE_HOLDER.size() + " attributes");
         Affixated.LOGGER.info("Loaded " + Affix.affixes.unwrap().size() + " affixes");
     }
 }

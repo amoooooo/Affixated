@@ -47,7 +47,7 @@ public class Affix implements WeightedEntry {
     }
 
     public static Affix getAffix(String affix) {
-        return Objects.requireNonNull(affixes.unwrap().stream().filter(a -> a.getData().id.equals(affix)).findFirst().orElse(null)).getData();
+        return affixes.unwrap().stream().filter(a -> a.getData().id.equals(affix)).findFirst().orElse(null).getData();
     }
 
     public AttributeModifier.Operation getOperation() {

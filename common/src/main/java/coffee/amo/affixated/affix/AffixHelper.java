@@ -14,12 +14,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
 
 
 public class AffixHelper {
+    public static Map<ResourceLocation, Attribute> ATTRIBUTE_HOLDER = new HashMap<>();
     public static void createLootItem(ItemStack stack, Level level){
         if(stack.getOrCreateTag().contains("affixes")) return;
         Affix testerAff = Affix.getValidAffix(stack, level.random);
@@ -71,10 +71,29 @@ public class AffixHelper {
     }
 
     public static Supplier<ResourceLocation> getAttributeKey(Attribute att){
-        return () -> Registry.ATTRIBUTE.getKey(att);
+        return () -> getKeyByValue(ATTRIBUTE_HOLDER, att);
     }
 
     public static Supplier<Attribute> getAttribute(ResourceLocation key){
-        return () -> Registry.ATTRIBUTE.get(key);
+        return () -> ATTRIBUTE_HOLDER.get(key);
+    }
+
+    public static <T, E> Set<T> getKeysByValue(Map<T, E> map, E value) {
+        Set<T> keys = new HashSet<T>();
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                keys.add(entry.getKey());
+            }
+        }
+        return keys;
+    }
+
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }
