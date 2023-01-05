@@ -1,5 +1,6 @@
 package coffee.amo.affixated.affix;
 
+import coffee.amo.affixated.Affixated;
 import coffee.amo.affixated.platform.Services;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -20,6 +21,10 @@ public class AffixInstance {
 
     public AffixInstance(Affix affix, Rarity rarity) {
         this.affix = affix;
+        if(affix.getRarityRange(rarity.getName().toString()) == null){
+            Affixated.LOGGER.error("Affix " + affix.getId() + " does not have a rarity range for rarity " + rarity.getName().toString());
+            return;
+        }
         this.value = affix.getRarityRange(rarity.getName().toString()).min;
         this.rarity = rarity;
         this.uuid = UUID.randomUUID();

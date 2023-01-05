@@ -33,15 +33,24 @@
       "steps": 10,
       "stepValue": 0.05
     },
-    "mythic": {
+    "mythical": {
       "min": 2,
       "max": 3,
+      "steps": 10,
+      "stepValue": 0.05
+    },
+    "immortal": {
+      "min": 3,
+      "max": 4,
       "steps": 10,
       "stepValue": 0.05
     }
   },
   "slots": [
-    "MAINHAND"
+    "MAINHAND",
+    "hand/ring",
+    "offhand/ring",
+    "chest/necklace"
   ],
   "weight": 1
 }

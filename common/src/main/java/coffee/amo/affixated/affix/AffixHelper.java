@@ -2,34 +2,49 @@ package coffee.amo.affixated.affix;
 
 import coffee.amo.affixated.Affixated;
 import coffee.amo.affixated.util.ItemHelper;
-import net.minecraft.core.Registry;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 
 public class AffixHelper {
     public static Map<ResourceLocation, Attribute> ATTRIBUTE_HOLDER = new HashMap<>();
     public static void createLootItem(ItemStack stack, Level level){
-        if(stack.getOrCreateTag().contains("affixes")) return;
+        if(stack.getOrCreateTag().contains("affixes")) {
+            Affixated.LOGGER.info("Found affixes on item " + stack.getDisplayName());
+            return;
+        }
         Affix testerAff = Affix.getValidAffix(stack, level.random);
-        if(testerAff == null) return;
-        Rarity rarity = Rarity.rarities.getRandomValue(level.random).get();
+        if(testerAff == null) {
+            Affixated.LOGGER.info("No affixes found for item: " + stack.getDisplayName());
+            return;
+        }
+        String line2 = stack.getTooltipLines(null, TooltipFlag.Default.NORMAL).get(2).getString();
+        Rarity rarity;
+        AtomicReference<String> rarstring = new AtomicReference<>();
+        stack.getTooltipLines(null, TooltipFlag.Default.NORMAL).forEach(line -> {
+            if(Rarity.raritiesMap.containsKey(line.getString().toLowerCase(Locale.ROOT))){
+                rarstring.set(line.getString());
+                line.getStyle().withColor(Rarity.raritiesMap.get(line.getString().toLowerCase(Locale.ROOT)).color);
+            }
+        });
+        if(rarstring.get() != null){
+            rarity = Rarity.raritiesMap.get(rarstring.get().toLowerCase(Locale.ROOT));
+        } else {
+            rarity = Rarity.rarities.getRandomValue(level.random).get();
+        }
         int affixes = level.random.nextInt(rarity.getMaxAffixes())+1;
         List<Affix> appliedAffixes = new ArrayList<>();
-        Affixated.LOGGER.info("Creating loot item with " + affixes + " affixes");
         stack.getAttributeModifiers(ItemHelper.getDefaultSlot(stack)).forEach((attribute, attributeModifier) -> {
-            Affixated.LOGGER.info("Removing affix " + attributeModifier.getName());
             stack.addAttributeModifier(attribute, attributeModifier, ItemHelper.getDefaultSlot(stack));
         });
         for(int i = 0; i < affixes; i++){
@@ -50,12 +65,14 @@ public class AffixHelper {
             Affixated.LOGGER.info("No affixes applied to item " + stack.getItem().getDescriptionId());
             return;
         }
-        Component name = Component.translatable(appliedAffixes.get(0).getPrefix().getPath())
+        int prefix = level.random.nextInt(appliedAffixes.size());
+        String suffix = level.random.nextInt(appliedAffixes.size()) == prefix ? "" : appliedAffixes.get(level.random.nextInt(appliedAffixes.size())).getSuffix().getPath();
+        Component name = Component.translatable(appliedAffixes.get(prefix).getPrefix().getPath())
                         .withStyle(s->s.withColor(rarity.color).withItalic(false))
                                 .append(Component.literal(" "))
                                         .append(Component.translatable(stack.getDescriptionId()))
                                                 .withStyle(s->s.withColor(rarity.color).withItalic(false)).append(Component.literal(" "))
-                                                        .append(Component.translatable(appliedAffixes.get(appliedAffixes.size()-1).getSuffix().getPath()))
+                                                        .append(Component.translatable(suffix))
                                                                 .withStyle(s->s.withColor(rarity.color).withItalic(false));
         stack.setHoverName(name);;
     }

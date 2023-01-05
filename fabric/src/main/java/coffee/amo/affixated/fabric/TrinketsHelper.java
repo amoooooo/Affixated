@@ -40,7 +40,6 @@ public class TrinketsHelper {
     private static void setTrinketTag(ItemStack stack, Attribute attribute, double amount, AttributeModifier.Operation operation, String slot, UUID uuid, ListTag listTag) {
         AttributeModifier modifier = new AttributeModifier(uuid.toString(), amount, operation);
         CompoundTag tag = modifier.save();
-        Affixated.LOGGER.error("ATTEMPTING TO SET ATTRIBUTE: " + attribute.getDescriptionId());
         tag.putString("AttributeName", AffixHelper.getAttributeKey(attribute).get().getPath());
         tag.putString("Name", attribute.getDescriptionId());
         tag.putString("Slot", slot);

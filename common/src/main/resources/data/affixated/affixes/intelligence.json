@@ -1,7 +1,7 @@
 {
   "id": "intelligence",
   "attribute": "playerex:intelligence",
-  "operation": "MULTIPLY_TOTAL",
+  "operation": "ADDITION",
   "rarities": {
     "common": {
       "min": 0.02,
@@ -33,9 +33,15 @@
       "steps": 10,
       "stepValue": 0.05
     },
-    "mythic": {
+    "mythical": {
       "min": 2,
       "max": 3,
+      "steps": 10,
+      "stepValue": 0.05
+    },
+    "immortal": {
+      "min": 3,
+      "max": 4,
       "steps": 10,
       "stepValue": 0.05
     }
@@ -44,10 +50,7 @@
     "HEAD",
     "CHEST",
     "LEGS",
-    "FEET",
-    "hand/ring",
-    "offhand/ring",
-    "chest/necklace"
+    "FEET"
   ],
   "weight": 1
 }

@@ -1,0 +1,56 @@
+{
+    "id": "ranged_cc",
+    "attribute": "playerex:ranged_crit_chance",
+    "operation": "MULTIPLY_TOTAL",
+    "rarities": {
+      "common": {
+        "min": 0.02,
+        "max": 1,
+        "steps": 10,
+        "stepValue": 0.05
+      },
+      "uncommon": {
+        "min": 0.02,
+        "max": 1,
+        "steps": 10,
+        "stepValue": 0.05
+      },
+      "rare": {
+          "min": 1,
+          "max": 5,
+          "steps": 10,
+          "stepValue": 0.05
+      },
+      "epic": {
+        "min": 0.5,
+        "max": 1,
+        "steps": 10,
+        "stepValue": 0.05
+      },
+      "legendary": {
+        "min": 1,
+        "max": 2,
+        "steps": 10,
+        "stepValue": 0.05
+      },
+      "mythical": {
+        "min": 2,
+        "max": 3,
+        "steps": 10,
+        "stepValue": 0.05
+      },
+      "immortal": {
+        "min": 3,
+        "max": 4,
+        "steps": 10,
+        "stepValue": 0.05
+      }
+    },
+    "slots": [
+      "RANGED",
+      "hand/ring",
+      "offhand/ring",
+      "chest/necklace"
+    ],
+    "weight": 1
+  }
