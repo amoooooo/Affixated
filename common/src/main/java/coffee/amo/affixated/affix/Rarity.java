@@ -16,15 +16,50 @@ public class Rarity implements WeightedEntry {
     public static SimpleWeightedRandomList<Rarity> rarities;
     public static Map<String, Rarity> raritiesMap = new HashMap<>();
 
+    public Rarity(){
+
+    }
+
     public static void setRaritiesList(SimpleWeightedRandomList<Rarity> rarities) {
         Rarity.rarities = rarities;
     }
     private ResourceLocation name;
     private int weight;
 
-    private final int maxAffixes;
+    private int maxAffixes;
 
     public int color;
+
+    public static CompoundTag raritiesToList(){
+        CompoundTag tag = new CompoundTag();
+        raritiesMap.forEach((key, value) -> tag.put(key, value.toNbt()));
+        return tag;
+    }
+
+    public static void listToRarities(CompoundTag tag){
+        raritiesMap.clear();
+        tag.getAllKeys().forEach(key -> raritiesMap.put(key, fromNbt(tag.getCompound(key))));
+    }
+
+    public CompoundTag toNbt(){
+        CompoundTag tag = new CompoundTag();
+        tag.putString("name", name.toString());
+        tag.putInt("weight", weight);
+        tag.putInt("maxAffixes", maxAffixes);
+        tag.putInt("color", color);
+        return tag;
+    }
+
+    public static Rarity fromNbt(CompoundTag tag){
+        Rarity rarity = new Rarity();
+        rarity.name = new ResourceLocation(tag.getString("name"));
+        rarity.weight = tag.getInt("weight");
+        rarity.maxAffixes = tag.getInt("maxAffixes");
+        rarity.color = tag.getInt("color");
+        return rarity;
+    }
+
+
 
     public Rarity(ResourceLocation name, int weight, int maxAffixes, String hex) {
         this.name = name;

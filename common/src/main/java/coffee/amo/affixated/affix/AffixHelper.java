@@ -19,16 +19,16 @@ import java.util.function.Supplier;
 public class AffixHelper {
     public static Map<ResourceLocation, Attribute> ATTRIBUTE_HOLDER = new HashMap<>();
     public static void createLootItem(ItemStack stack, Level level){
-        if(stack.getOrCreateTag().contains("affixes")) {
-            Affixated.LOGGER.info("Found affixes on item " + stack.getDisplayName());
-            return;
-        }
         Affix testerAff = Affix.getValidAffix(stack, level.random);
         if(testerAff == null) {
-            Affixated.LOGGER.info("No affixes found for item: " + stack.getDisplayName());
             return;
         }
-        String line2 = stack.getTooltipLines(null, TooltipFlag.Default.NORMAL).get(2).getString();
+        Affixated.LOGGER.info("Attempting to roll loot affixes for item: " + stack.getDisplayName().getString());
+        if(stack.getOrCreateTag().contains("affixes")) {
+            return;
+        }
+        List<Component> tooltip = stack.getTooltipLines(null, TooltipFlag.Default.NORMAL);
+        String line2 = tooltip.size() > 2 ? tooltip.get(2).getString() : tooltip.get(tooltip.size()-1).getString();
         Rarity rarity;
         AtomicReference<String> rarstring = new AtomicReference<>();
         stack.getTooltipLines(null, TooltipFlag.Default.NORMAL).forEach(line -> {

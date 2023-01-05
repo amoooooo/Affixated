@@ -1,4 +1,4 @@
-package coffee.amo.affixated.platform;
+package coffee.amo.affixated.forge.platform;
 
 import coffee.amo.affixated.affix.Affix;
 import coffee.amo.affixated.affix.AffixInstance;

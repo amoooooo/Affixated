@@ -6,6 +6,7 @@ import coffee.amo.affixated.util.ItemHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -34,6 +35,68 @@ public class Affix implements WeightedEntry {
     private String id;
     private int weight;
 
+    public static CompoundTag affixesToList(){
+        CompoundTag tag = new CompoundTag();
+        for(Wrapper<Affix> affix : affixes.unwrap()){
+            tag.put(affix.getData().getId(), affix.getData().toNbt());
+        }
+        return tag;
+    }
+
+    public static Affix fromNbt(CompoundTag tag){
+        Affix affix = new Affix();
+        affix.attribute = Registry.ATTRIBUTE.get(new ResourceLocation(tag.getString("attribute")));
+        affix.operation = AttributeModifier.Operation.values()[tag.getInt("operation")];
+        affix.prefix = new ResourceLocation(tag.getString("prefix"));
+        affix.suffix = new ResourceLocation(tag.getString("suffix"));
+        affix.desc = new ResourceLocation(tag.getString("desc"));
+        affix.id = tag.getString("id");
+        affix.weight = tag.getInt("weight");
+        ListTag allowedSlots = tag.getList("allowedSlots", 8);
+        for(int i = 0; i < allowedSlots.size(); i++){
+            affix.allowedSlots.add(allowedSlots.getString(i));
+        }
+        ListTag rarityMap = tag.getList("rarityMap", 10);
+        for(int i = 0; i < rarityMap.size(); i++){
+            CompoundTag rarityTag = rarityMap.getCompound(i);
+            Rarity rarity = Rarity.raritiesMap.get(rarityTag.getString("rarity"));
+            RarityRange range = new RarityRange(rarityTag.getDouble("min"), rarityTag.getDouble("max"), rarityTag.getDouble("steps"), rarityTag.getDouble("stepValue"));
+            affix.rarityMap.put(rarity, range);
+        }
+        return affix;
+    }
+
+    public static void listToAffixes(CompoundTag tag){
+        SimpleWeightedRandomList.Builder<Affix> builder = new SimpleWeightedRandomList.Builder<>();
+        for(String key : tag.getAllKeys()){
+            Affix affix = fromNbt(tag.getCompound(key));
+            builder.add(affix, affix.getWeight().asInt());
+        }
+        setAffixesList(builder.build());
+    }
+
+    public CompoundTag toNbt(){
+        CompoundTag tag = new CompoundTag();
+        tag.putString("id", id);
+        tag.putString("attribute", AffixHelper.getAttributeKey(attribute).toString());
+        tag.putString("operation", operation.toString());
+        tag.putString("prefix", prefix.toString());
+        tag.putString("suffix", suffix.toString());
+        tag.putString("desc", desc.toString());
+        tag.putInt("weight", weight);
+        ListTag allowedSlots = new ListTag();
+        for(String slot : this.allowedSlots){
+            allowedSlots.add(StringTag.valueOf(slot));
+        }
+        tag.put("allowedSlots", allowedSlots);
+        CompoundTag rarityMap = new CompoundTag();
+        for(Map.Entry<Rarity, RarityRange> entry : this.rarityMap.entrySet()){
+            rarityMap.put(entry.getKey().toString(), entry.getValue().toNbt());
+        }
+        tag.put("rarityMap", rarityMap);
+        return tag;
+    }
+
     public Affix(String id, Attribute attribute, ResourceLocation prefix, ResourceLocation suffix, ResourceLocation desc, Map<Rarity, RarityRange> rarityMap, List<String> allowedSlots, AttributeModifier.Operation operation, int weight) {
         this.attribute = attribute;
         this.prefix = prefix;
@@ -44,6 +107,9 @@ public class Affix implements WeightedEntry {
         this.operation = operation;
         this.weight = weight;
         this.desc = desc;
+    }
+    public Affix(){
+
     }
 
     public static Affix getAffix(String affix) {
@@ -145,6 +211,19 @@ public class Affix implements WeightedEntry {
             this.max = max;
             this.steps = steps;
             this.stepValue = stepValue;
+        }
+
+        public CompoundTag toNbt(){
+            CompoundTag tag = new CompoundTag();
+            tag.putDouble("min", min);
+            tag.putDouble("max", max);
+            tag.putDouble("steps", steps);
+            tag.putDouble("stepValue", stepValue);
+            return tag;
+        }
+
+        public static RarityRange fromNbt(CompoundTag tag){
+            return new RarityRange(tag.getDouble("min"), tag.getDouble("max"), tag.getDouble("steps"), tag.getDouble("stepValue"));
         }
 
         public double getRandomInRange(){

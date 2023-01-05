@@ -14,10 +14,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -57,6 +54,13 @@ public class FabricPlatformHelper implements IPlatformHelper {
                 slot = "MELEE";
             } else if(stack.getItem() instanceof ProjectileWeaponItem){
                 slot = "RANGED";
+            } else {
+                slot = "MISC";
+            }
+        }
+        if(Objects.equals(slot, "OFFHAND")){
+            if(stack.getItem() instanceof ShieldItem){
+                slot = "SHIELD";
             } else {
                 slot = "MISC";
             }
