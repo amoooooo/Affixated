@@ -1,5 +1,6 @@
 package coffee.amo.affixated.affix;
 
+import coffee.amo.affixated.Affixated;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -20,6 +21,16 @@ public class Rarity implements WeightedEntry {
 
     }
 
+    public static Rarity getRar(String id){
+        id = id.substring(id.indexOf(":")+1);
+        for(String rarity : raritiesMap.keySet()){
+            if(rarity.toLowerCase().equals(id)){
+                return raritiesMap.get(rarity);
+            }
+        }
+        return null;
+    }
+
     public static void setRaritiesList(SimpleWeightedRandomList<Rarity> rarities) {
         Rarity.rarities = rarities;
     }
@@ -27,6 +38,7 @@ public class Rarity implements WeightedEntry {
     private int weight;
 
     private int maxAffixes;
+    private int minAffixes;
 
     public int color;
 
@@ -38,7 +50,10 @@ public class Rarity implements WeightedEntry {
 
     public static void listToRarities(CompoundTag tag){
         raritiesMap.clear();
-        tag.getAllKeys().forEach(key -> raritiesMap.put(key, fromNbt(tag.getCompound(key))));
+        tag.getAllKeys().forEach(key -> {
+            raritiesMap.put(key, fromNbt(tag.getCompound(key)));
+        });
+        Affixated.LOGGER.info("Loaded " + raritiesMap.size() + " rarities");
     }
 
     public CompoundTag toNbt(){
@@ -46,6 +61,7 @@ public class Rarity implements WeightedEntry {
         tag.putString("name", name.toString());
         tag.putInt("weight", weight);
         tag.putInt("maxAffixes", maxAffixes);
+        tag.putInt("minAffixes", minAffixes);
         tag.putInt("color", color);
         return tag;
     }
@@ -55,16 +71,18 @@ public class Rarity implements WeightedEntry {
         rarity.name = new ResourceLocation(tag.getString("name"));
         rarity.weight = tag.getInt("weight");
         rarity.maxAffixes = tag.getInt("maxAffixes");
+        rarity.minAffixes = tag.getInt("minAffixes");
         rarity.color = tag.getInt("color");
         return rarity;
     }
 
 
 
-    public Rarity(ResourceLocation name, int weight, int maxAffixes, String hex) {
+    public Rarity(ResourceLocation name, int weight, int maxAffixes, int minAffixes, String hex) {
         this.name = name;
         this.weight = weight;
         this.maxAffixes = maxAffixes;
+        this.minAffixes = minAffixes;
         this.color = Integer.parseInt(hex.replace("#", ""), 16);
     }
 
@@ -83,6 +101,14 @@ public class Rarity implements WeightedEntry {
 
     public int getMaxAffixes() {
         return maxAffixes;
+    }
+
+    public int getMinAffixes() {
+        return minAffixes;
+    }
+
+    public void setMinAffixes(int minAffixes) {
+        this.minAffixes = minAffixes;
     }
 
     public void setName(ResourceLocation name) {

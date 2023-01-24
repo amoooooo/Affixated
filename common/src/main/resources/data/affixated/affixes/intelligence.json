@@ -1,49 +1,49 @@
 {
   "id": "intelligence",
   "attribute": "playerex:intelligence",
-  "operation": "ADDITION",
+  "operation": "MULTIPLY_BASE",
   "rarities": {
     "common": {
       "min": 0.02,
-      "max": 1,
+      "max": 30,
       "steps": 10,
-      "stepValue": 0.05
+      "stepValue": 0.01
     },
     "uncommon": {
-      "min": 0.1,
-      "max": 1,
-      "steps": 10,
-      "stepValue": 0.75
+      "min": 0.5,
+      "max": 30,
+      "steps": 20,
+      "stepValue": 0.03
     },
     "rare": {
-        "min": 1,
-        "max": 5,
-        "steps": 10,
-        "stepValue": 0.05
+      "min": 0.5,
+      "max": 30,
+      "steps": 25,
+      "stepValue": 0.03
     },
     "epic": {
       "min": 0.5,
-      "max": 1,
-      "steps": 10,
-      "stepValue": 0.05
+      "max": 30,
+      "steps": 25,
+      "stepValue": 0.08
     },
     "legendary": {
-      "min": 1,
-      "max": 2,
-      "steps": 10,
-      "stepValue": 0.05
+      "min": 0.02,
+      "max": 30,
+      "steps": 30,
+      "stepValue": 0.1
     },
     "mythical": {
-      "min": 2,
-      "max": 3,
-      "steps": 10,
-      "stepValue": 0.05
+      "min": 0.02,
+      "max": 30,
+      "steps": 15,
+      "stepValue": 0.125
     },
     "immortal": {
-      "min": 3,
-      "max": 4,
-      "steps": 10,
-      "stepValue": 0.05
+      "min": 0.02,
+      "max": 30,
+      "steps": 30,
+      "stepValue": 0.2
     }
   },
   "slots": [

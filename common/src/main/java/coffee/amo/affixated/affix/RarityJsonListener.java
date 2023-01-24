@@ -24,7 +24,7 @@ public class RarityJsonListener extends SimpleJsonResourceReloadListener {
         Rarity.raritiesMap.clear();
         SimpleWeightedRandomList.Builder<Rarity> raritiesBuilder = new SimpleWeightedRandomList.Builder<>();
         folder.forEach((resourceLocation, jsonElement) -> {
-            Rarity rarity = new Rarity(resourceLocation, jsonElement.getAsJsonObject().get("weight").getAsInt(), jsonElement.getAsJsonObject().get("affixes").getAsInt(), jsonElement.getAsJsonObject().get("color").getAsString());
+            Rarity rarity = new Rarity(resourceLocation, jsonElement.getAsJsonObject().get("weight").getAsInt(), jsonElement.getAsJsonObject().get("affixes").getAsInt(), jsonElement.getAsJsonObject().get("minAffixes").getAsInt(), jsonElement.getAsJsonObject().get("color").getAsString());
             raritiesBuilder.add(rarity, rarity.getWeight().asInt());
             Rarity.raritiesMap.put(resourceLocation.getPath(), rarity);
         });

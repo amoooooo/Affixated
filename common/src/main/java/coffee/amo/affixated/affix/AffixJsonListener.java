@@ -50,7 +50,7 @@ public class AffixJsonListener extends SimpleJsonResourceReloadListener {
                 double min = rarityObject.get("min").getAsDouble();
                 double max = rarityObject.get("max").getAsDouble();
                 double stepValue = rarityObject.get("stepValue").getAsDouble();
-                raritiesMap.put(Rarity.raritiesMap.get(rarity.getKey()), new Affix.RarityRange(min, max, steps, stepValue));
+                raritiesMap.put(Rarity.getRar(rarity.getKey()), new Affix.RarityRange(min, max, steps, stepValue));
             });
             JsonArray slots = jsonElement.getAsJsonObject().get("slots").getAsJsonArray();
             List<String> equipmentSlots = new ArrayList<>();

@@ -32,6 +32,11 @@ public class ForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public void remove(ItemStack stack, Attribute attribute, UUID uuid) {
+
+    }
+
+    @Override
     public List<String> getDefaultSlots(ItemStack stack) {
         List<String> slots = new ArrayList<>();
         if(Platform.isModLoaded("curios")) {
@@ -42,5 +47,20 @@ public class ForgePlatformHelper implements IPlatformHelper {
         }
         slots.add(ItemHelper.getDefaultSlot(stack).toString());
         return slots;
+    }
+
+    @Override
+    public void rerollInv(Player player) {
+
+    }
+
+    @Override
+    public ItemStack rerollRelic(ItemStack stack) {
+        return null;
+    }
+
+    @Override
+    public boolean testBadlyCodedMod(ItemStack stack) {
+        return false;
     }
 }

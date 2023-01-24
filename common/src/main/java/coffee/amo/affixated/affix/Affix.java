@@ -1,5 +1,6 @@
 package coffee.amo.affixated.affix;
 
+import coffee.amo.affixated.Affixated;
 import coffee.amo.affixated.platform.Services;
 import coffee.amo.affixated.slots.IAffixatedSlot;
 import coffee.amo.affixated.util.ItemHelper;
@@ -45,7 +46,7 @@ public class Affix implements WeightedEntry {
 
     public static Affix fromNbt(CompoundTag tag){
         Affix affix = new Affix();
-        affix.attribute = Registry.ATTRIBUTE.get(new ResourceLocation(tag.getString("attribute")));
+        affix.attribute = AffixHelper.getAttribute(ResourceLocation.tryParse(tag.getString("attribute"))).get();
         affix.operation = AttributeModifier.Operation.values()[tag.getInt("operation")];
         affix.prefix = new ResourceLocation(tag.getString("prefix"));
         affix.suffix = new ResourceLocation(tag.getString("suffix"));
@@ -73,6 +74,7 @@ public class Affix implements WeightedEntry {
             builder.add(affix, affix.getWeight().asInt());
         }
         setAffixesList(builder.build());
+        Affixated.LOGGER.info("Loaded {} affixes", affixes.unwrap().size());
     }
 
     public CompoundTag toNbt(){
@@ -91,6 +93,10 @@ public class Affix implements WeightedEntry {
         tag.put("allowedSlots", allowedSlots);
         CompoundTag rarityMap = new CompoundTag();
         for(Map.Entry<Rarity, RarityRange> entry : this.rarityMap.entrySet()){
+            if(entry.getKey() == null){
+                Affixated.LOGGER.info("Rarity is null");
+                continue;
+            }
             rarityMap.put(entry.getKey().toString(), entry.getValue().toNbt());
         }
         tag.put("rarityMap", rarityMap);
@@ -113,7 +119,9 @@ public class Affix implements WeightedEntry {
     }
 
     public static Affix getAffix(String affix) {
-        return affixes.unwrap().stream().filter(a -> a.getData().id.equals(affix)).findFirst().orElse(null).getData();
+        Wrapper<Affix> aff = affixes.unwrap().stream().filter(a -> a.getData().id.equals(affix)).findFirst().orElse(null);
+        if(aff == null) return null;
+        return aff.getData();
     }
 
     public AttributeModifier.Operation getOperation() {
@@ -149,8 +157,10 @@ public class Affix implements WeightedEntry {
     }
 
     public RarityRange getRarityRange(String rarity){
+        rarity = rarity.substring(rarity.indexOf(":") + 1);
         for(Rarity r : rarityMap.keySet()){
-            if(r.getName().toString().equals(rarity)){
+            if(r == null) continue;
+            if(r.getName().toString().toLowerCase().substring(r.getName().toString().toLowerCase().indexOf(":") + 1).equals(rarity)){
                 return rarityMap.get(r);
             }
         }

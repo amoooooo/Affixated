@@ -17,6 +17,14 @@
     ],
     "client": [
       "coffee.amo.affixated.fabric.AffixatedClientFabric"
+    ],
+    "cardinal-components": [
+      "coffee.amo.affixated.fabric.MyComponents"
+    ]
+  },
+  "custom": {
+    "cardinal-components": [
+      "affixated:reroll"
     ]
   },
   "mixins": [

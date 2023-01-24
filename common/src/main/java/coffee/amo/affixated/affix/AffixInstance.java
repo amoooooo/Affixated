@@ -19,10 +19,13 @@ public class AffixInstance {
 
     private UUID uuid;
 
+    public AffixInstance(){
+
+    }
+
     public AffixInstance(Affix affix, Rarity rarity) {
         this.affix = affix;
         if(affix.getRarityRange(rarity.getName().toString()) == null){
-            Affixated.LOGGER.error("Affix " + affix.getId() + " does not have a rarity range for rarity " + rarity.getName().toString());
             return;
         }
         this.value = affix.getRarityRange(rarity.getName().toString()).min;
@@ -85,17 +88,25 @@ public class AffixInstance {
     }
 
     public static AffixInstance fromNbt(CompoundTag tag) {
-        AtomicReference<AffixInstance> instance = new AtomicReference<>();
-        tag.getAllKeys().forEach(key -> {
+        AffixInstance instance = new AffixInstance();
+        for(String key : tag.getAllKeys()) {
             Affix aff = Affix.getAffix(tag.getCompound(key).getString("affix"));
             if (aff == null) {
-                instance.set(null);
-                return;
+                instance = null;
+                return instance;
             }
-            instance.set(new AffixInstance(aff, Rarity.getRarity(tag.getCompound(key).getString("rarity"))));
-            instance.get().value = tag.getCompound(key).getDouble("value");
-            instance.get().uuid = tag.getCompound(key).getUUID("uuid");
-        });
-        return instance.get();
+            Rarity rar = Rarity.getRar(tag.getCompound(key).getString("rarity"));
+            if (rar == null) {
+                instance = null;
+                return instance;
+            }
+            instance = new AffixInstance(aff, rar);
+            instance.setValue(tag.getCompound(key).getDouble("value"));
+            instance.uuid = tag.getCompound(key).getUUID("uuid");
+        }
+        if(instance.getAffix() == null || instance.getRarity() == null){
+            instance = null;
+        }
+        return instance;
     }
 }

@@ -1,5 +1,6 @@
 {
-  "weight": 2,
+  "weight": 150,
   "affixes": 11,
+  "minAffixes": 9,
   "color": "#f7a10c"
 }

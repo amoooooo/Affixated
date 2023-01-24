@@ -8,7 +8,8 @@
     "EntityMixin",
     "ItemMixin",
     "ItemStackMixin",
-    "LootTableMixin"
+    "LootTableMixin",
+    "SmithingMenuMixin"
   ],
   "client": [
   ],

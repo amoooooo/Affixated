@@ -1,50 +1,50 @@
 {
     "id": "evasion",
     "attribute": "playerex:evasion",
-    "operation": "MULTIPLY_TOTAL",
+    "operation": "MULTIPLY_BASE",
     "rarities": {
-        "common": {
-            "min": 0.02,
-            "max": 1,
-            "steps": 10,
-            "stepValue": 0.05
-        },
-        "uncommon": {
-            "min": 0.1,
-            "max": 1,
-            "steps": 10,
-            "stepValue": 0.75
-        },
-        "rare": {
-            "min": 1,
-            "max": 5,
-            "steps": 10,
-            "stepValue": 0.05
-        },
-        "epic": {
-            "min": 0.5,
-            "max": 1,
-            "steps": 10,
-            "stepValue": 0.05
-        },
-        "legendary": {
-            "min": 1,
-            "max": 2,
-            "steps": 10,
-            "stepValue": 0.05
-        },
-        "mythical": {
-            "min": 2,
-            "max": 3,
-            "steps": 10,
-            "stepValue": 0.05
-        },
-        "immortal": {
-            "min": 3,
-            "max": 4,
-            "steps": 10,
-            "stepValue": 0.05
-        }
+      "common": {
+        "min": 0.02,
+        "max": 30,
+        "steps": 70,
+        "stepValue": 0.001
+      },
+      "uncommon": {
+        "min": 0.1,
+        "max": 30,
+        "steps": 50,
+        "stepValue": 0.003
+      },
+      "rare": {
+        "min": 0.5,
+        "max": 30,
+        "steps": 60,
+        "stepValue": 0.003
+      },
+      "epic": {
+        "min": 0.5,
+        "max": 30,
+        "steps": 25,
+        "stepValue": 0.015
+      },
+      "legendary": {
+        "min": 0.02,
+        "max": 30,
+        "steps": 30,
+        "stepValue": 0.02
+      },
+      "mythical": {
+        "min": 0.02,
+        "max": 30,
+        "steps": 15,
+        "stepValue": 0.025
+      },
+      "immortal": {
+        "min": 0.02,
+        "max": 30,
+        "steps": 30,
+        "stepValue": 0.03
+      }
     },
     "slots": [
         "MELEE",
@@ -52,6 +52,7 @@
         "CHEST",
         "LEGS",
         "FEET",
+        "OFFHAND",
         "hand/ring",
         "offhand/ring",
         "chest/necklace"

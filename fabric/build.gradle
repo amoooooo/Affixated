@@ -11,6 +11,13 @@ repositories {
         name = "Ladysnake Libs"
         url = "https://ladysnake.jfrog.io/artifactory/mods"
     }
+    maven {
+        name = "Curse Maven"
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 loom{
@@ -36,6 +43,9 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     modImplementation "dev.emi:trinkets:${rootProject.trinkets_version}"
+    modImplementation "curse.maven:data-attributes-514734:4287543"
+    modImplementation "curse.maven:mc-weapons-407311:3971563"
+    modImplementation "curse.maven:mc-armor-426206:3956976"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
