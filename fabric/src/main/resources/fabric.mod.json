@@ -19,12 +19,13 @@
       "coffee.amo.affixated.fabric.AffixatedClientFabric"
     ],
     "cardinal-components": [
-      "coffee.amo.affixated.fabric.MyComponents"
+      "coffee.amo.affixated.fabric.components.MyComponents"
     ]
   },
   "custom": {
     "cardinal-components": [
-      "affixated:reroll"
+      "affixated:reroll",
+      "affixated:mana"
     ]
   },
   "mixins": [

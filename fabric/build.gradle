@@ -44,8 +44,14 @@ dependencies {
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     modImplementation "dev.emi:trinkets:${rootProject.trinkets_version}"
     modImplementation "curse.maven:data-attributes-514734:4287543"
-    modImplementation "curse.maven:mc-weapons-407311:3971563"
-    modImplementation "curse.maven:mc-armor-426206:3956976"
+    modImplementation "curse.maven:wizards-734325:4390835"
+    modImplementation "curse.maven:geckolib-388172:4407239"
+    modImplementation "curse.maven:runes-775518:4379499"
+    modImplementation "curse.maven:spell-engine-807653:4390818"
+    modImplementation "curse.maven:player-animator-658587:4357569"
+    modImplementation "curse.maven:cloth-config-348521:3972372"
+    modImplementation "curse.maven:better-combat-639842:4357587"
+    modImplementation "curse.maven:spell-power-771265:4390244"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

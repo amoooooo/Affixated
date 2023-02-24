@@ -1,4 +1,4 @@
-package coffee.amo.affixated.fabric;
+package coffee.amo.affixated.fabric.components;
 
 import dev.onyxstudios.cca.api.v3.component.Component;
 import net.minecraft.nbt.CompoundTag;

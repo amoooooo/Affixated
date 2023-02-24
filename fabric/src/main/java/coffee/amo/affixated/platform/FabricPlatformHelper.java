@@ -1,27 +1,24 @@
 package coffee.amo.affixated.platform;
 
-import chronosacaria.mcda.items.ArmorSetItem;
-import chronosacaria.mcdw.bases.*;
 import coffee.amo.affixated.Affixated;
 import coffee.amo.affixated.affix.Affix;
 import coffee.amo.affixated.affix.AffixHelper;
 import coffee.amo.affixated.affix.AffixInstance;
 import coffee.amo.affixated.affix.ItemExtension;
 import coffee.amo.affixated.fabric.AffixatedFabric;
-import coffee.amo.affixated.fabric.Components;
+import coffee.amo.affixated.fabric.components.Components;
 import coffee.amo.affixated.fabric.TrinketsHelper;
-import coffee.amo.affixated.mixin.ItemStackMixin;
 import coffee.amo.affixated.platform.services.IPlatformHelper;
 import coffee.amo.affixated.util.ItemHelper;
 import dev.architectury.platform.Platform;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import org.jetbrains.annotations.Nullable;
+import net.spell_engine.api.item.StaffItem;
+import net.spell_engine.internals.SpellCasterItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +83,9 @@ public class FabricPlatformHelper implements IPlatformHelper {
                 slot = "TRIDENT";
             } else if (stack.getItem() instanceof ProjectileWeaponItem) {
                 slot = "RANGED";
-            } else {
+            } else if (stack.getItem() instanceof SpellCasterItemStack){
+                slot = "SPELLCASTER";
+            }else {
                 slot = "MISC";
             }
         }
@@ -139,17 +138,6 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
     public boolean testBadlyCodedMod(ItemStack stack) {
-        if (stack.getItem() instanceof ArmorSetItem) {
-            return true;
-        }
-        if (stack.getItem() instanceof McdwAxe || stack.getItem() instanceof McdwBow || stack.getItem() instanceof McdwCrossbow || stack.getItem() instanceof McdwCustomWeaponBase || stack.getItem() instanceof McdwDagger
-                || stack.getItem() instanceof McdwHammer
-                || stack.getItem() instanceof McdwSpear || stack.getItem() instanceof McdwSword || stack.getItem() instanceof McdwWhip || stack.getItem() instanceof McdwShield || stack.getItem() instanceof McdwStaff || stack.getItem() instanceof McdwGlaive
-                || stack.getItem() instanceof McdwGauntlet || stack.getItem() instanceof McdwLongbow || stack.getItem() instanceof McdwPick || stack.getItem() instanceof McdwDoubleAxe || stack.getItem() instanceof McdwScythe || stack.getItem() instanceof McdwSickle
-                || stack.getItem() instanceof McdwSoulDagger || stack.getItem() instanceof McdwShortbow
-        ) {
-            return true;
-        }
         return false;
     }
 }

@@ -24,6 +24,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.GameRules;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +32,7 @@ public class Affixated {
     public static final String MOD_ID = "affixated";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final ResourceLocation SYNC_PACKET = new ResourceLocation(MOD_ID, "sync_packet");
+
     public static void init() {
         ReloadListenerRegistry.register(PackType.SERVER_DATA, RarityJsonListener.INSTANCE);
         ReloadListenerRegistry.register(PackType.SERVER_DATA, AffixJsonListener.INSTANCE);
